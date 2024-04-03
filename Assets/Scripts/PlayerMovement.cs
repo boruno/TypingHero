@@ -1,21 +1,23 @@
-using System.Collections;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float speed;
-
-    private Vector2 input;
+    public float speed = 4.5f;
+    public Rigidbody2D rb;
+    Vector2 input;
+    Vector2 movement;
 
     private void Update()
     {
         input.x = Input.GetAxisRaw("Horizontal");
         input.y = Input.GetAxisRaw("Vertical");
 
-        var targetPos = transform.position;
-        targetPos.x += input.x * speed * Time.deltaTime;
-        targetPos.y += input.y * speed * Time.deltaTime;
+        movement = input * speed * Time.deltaTime;
+    }
 
-        transform.position = targetPos;
+    private void FixedUpdate()
+    {
+        rb.MovePosition(rb.position + movement);
+        movement = Vector2.zero; // Reset the movement after applying it
     }
 }
